@@ -52,18 +52,63 @@ def run_quantvn_check() -> None:
 
     from quantvn.vn.data import get_stock_hist
     from quantvn.vn.data.utils import client
-    from quantvn.vn.metrics import Backtest_Stock
+    from quantvn.vn.metrics import Backtest_Stock, Metrics
+    import time
 
     client(apikey=api_key)
-    df = get_stock_hist("VIC", resolution="1H")
+    
+    df = None
+    max_retries = 5
+    retry_delay = 3
+    
+    for attempt in range(max_retries):
+        try:
+            print(f"Fetching live data from QuantVN for symbol 'VIC' (attempt {attempt + 1}/{max_retries})...")
+            df = get_stock_hist("VIC", resolution="1H")
+            if df is not None and not df.empty:
+                break
+        except Exception as e:
+            print(f"Warning: Attempt {attempt + 1} failed: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+            else:
+                print("\nError: All attempts to fetch live data failed due to connection issues.")
+                print("Skipping live QuantVN backtest check.")
+                return
+
+    if df is None or df.empty:
+        print("Warning: Retrieved DataFrame is empty. Skipping live check.")
+        return
+
     result = gen_position(df)
 
     backtest = Backtest_Stock(result, pnl_type="after_fees")
     pnl = backtest.PNL()
-    print("Live QuantVN check passed.")
+    
+    # Calculate performance metrics
+    try:
+        metrics = Metrics(backtest)
+        sharpe = metrics.sharpe()
+        max_dd = metrics.max_drawdown()
+        win_rate = metrics.win_rate()
+        profit_factor = metrics.profit_factor()
+    except Exception as e:
+        metrics = None
+        print(f"Warning: Could not calculate performance metrics: {e}")
+
+    print("\nLive QuantVN check passed.")
     print(result[["Close", "ma_fast", "ma_slow", "signal", "position"]].tail())
-    print(f"Final PnL: {pnl.iloc[-1]:,.2f}")
-    print(f"Estimated minimum capital: {backtest.estimate_minimum_capital():,.0f}")
+    print("-" * 50)
+    print("BACKTEST PERFORMANCE REPORT (VIC 1H):")
+    print(f"  Final PnL:                  {pnl.iloc[-1]:,.2f} VND")
+    print(f"  Estimated Minimum Capital:   {backtest.estimate_minimum_capital():,.0f} VND")
+    if metrics:
+        print(f"  Sharpe Ratio:                {sharpe:.3f}")
+        print(f"  Max Drawdown:                {max_dd*100:.2f}%")
+        print(f"  Win Rate:                    {win_rate*100:.2f}%")
+        if pd.notna(profit_factor):
+            print(f"  Profit Factor:               {profit_factor:.3f}")
+    print("-" * 50)
 
 
 if __name__ == "__main__":
