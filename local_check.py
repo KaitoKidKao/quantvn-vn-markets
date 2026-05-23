@@ -39,7 +39,7 @@ def run_synthetic_check() -> pd.DataFrame:
         raise AssertionError(f"Invalid signal values: {sorted(invalid_signals)}")
 
     print("Synthetic check passed.")
-    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "signal", "position"] if c in result.columns]
+    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "ema", "high_max", "low_min", "sma_long", "sma_short", "signal", "position"] if c in result.columns]
     print(result[cols_to_print].tail())
     return result
 
@@ -98,7 +98,7 @@ def run_quantvn_check() -> None:
         print(f"Warning: Could not calculate performance metrics: {e}")
 
     print("\nLive QuantVN check passed.")
-    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "signal", "position"] if c in result.columns]
+    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "ema", "high_max", "low_min", "sma_long", "sma_short", "signal", "position"] if c in result.columns]
     print(result[cols_to_print].tail())
     print("-" * 50)
     print("BACKTEST PERFORMANCE REPORT (VIC 1H):")
