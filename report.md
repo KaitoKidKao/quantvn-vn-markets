@@ -1,24 +1,25 @@
 # BÁO CÁO TỰ ĐÁNH GIÁ HIỆU SUẤT HỆ THỐNG ĐA CHIẾN LƯỢC (MULTI-STRATEGY EVALUATION)
 
-* Học viên: Nguyễn Trí Cao
-* Email: kaitokao1412@gmail.com
-* Dự án: QuantVN Entry Test
-* Repository: https://github.com/KaitoKidKao/quantvn-vn-markets
+* **Học viên:** Nguyễn Trí Cao
+* **Email:** kaitokao1412@gmail.com
+* **Dự án:** QuantVN Entry Test
+* **Repository:** [quantvn-vn-markets](https://github.com/KaitoKidKao/quantvn-vn-markets)
 
 ---
 
-## 1. Đặt vấn đề và Phương pháp nghiên cứu
-Để hoàn thành bài test đầu vào và có được cái nhìn đa chiều nhất về thị trường chứng khoán Việt Nam, tôi đã không chỉ triển khai một chiến lược đơn lẻ mà chủ động thiết kế, lập trình và chạy thử nghiệm **5 chiến lược giao dịch định lượng khác nhau** (gồm cả trường phái Theo xu hướng - Trend Following và Đảo chiều xu hướng - Mean Reversion) nhằm so sánh, đối chiếu hiệu quả thực tế trên nền tảng QuantVN.
+## 1. Đặt vấn đề và Phương pháp tiếp cận
 
-Dữ liệu backtest được chạy từ ngày **13-08-2018 đến 30-12-2022** trên sàn QuantVN.
+Để chuẩn bị cho bài test đầu vào này và cũng là để tự mình hiểu rõ hơn về cách vận hành của thị trường chứng khoán Việt Nam, tôi quyết định không chỉ làm một chiến lược duy nhất. Thay vào đó, tôi đã xây dựng và chạy thử nghiệm **5 bot với các chiến lược khác nhau** – chia làm hai nhóm chính là Theo xu hướng (Trend Following) và Đảo chiều (Mean Reversion). Mục tiêu là để có số liệu đối chiếu thực tế xem mỗi góc nhìn sẽ "sống sót" ra sao trên nền tảng QuantVN.
+
+Toàn bộ dữ liệu backtest được lấy trong giai đoạn từ **13-08-2018 đến 30-12-2022**.
 
 ![Compare Methods](image.png)
 
 ---
 
-## 2. Kết quả đối chiếu số liệu từ Platform
+## 2. Kết quả thu được từ Platform
 
-Dưới đây là bảng tổng hợp các chỉ số hiệu suất thực tế thu được từ Dashboard của 5 Bot sau khi chạy kiểm thử trên Platform:
+Dưới đây là bảng số liệu thực tế tôi ghi nhận lại từ Dashboard sau khi chạy kiểm thử:
 
 | Hạng | Tên chiến lược | Lợi nhuận trung bình | Điểm Hiệu suất | Điểm Sáng tạo | Điểm Ổn định | Đặc tính chiến lược |
 | :---: | :--- | :---: | :---: | :---: | :---: | :--- |
@@ -30,33 +31,35 @@ Dưới đây là bảng tổng hợp các chỉ số hiệu suất thực tế 
 
 ---
 
-## 3. Phân tích Chi tiết từng Chiến lược
+## 3. Phân tích chi tiết góc nhìn cá nhân
 
-### 3.1. Các chiến lược Theo xu hướng (EMA_Trend, Trend Following, MA_Crossover, BreakOut)
-* **EMA_Trend (+137.09%)**: Đạt mức sinh lời cao nhất. Nhờ sử dụng trung bình lũy thừa (EMA 50), chiến lược phản ứng nhanh nhạy hơn với biến động giá, giúp vào lệnh sớm khi xu hướng tăng bắt đầu và thoát vị thế kịp thời khi thị trường đảo chiều đi xuống.
-* **Trend Following (+116.06% - Điểm Hiệu suất: 5.33)**: Đạt điểm hiệu suất và độ ổn định tối ưu nhất. Việc kết hợp bộ lọc xu hướng dài hạn (SMA 100) giúp hệ thống chỉ thực hiện lệnh mua khi thị trường chung thực sự an toàn (Uptrend), loại bỏ được rất nhiều tín hiệu nhiễu ngắn hạn.
-* **MA_Crossover (+110.22%)**: Hoạt động ổn định, bám trend tốt nhưng biên lợi nhuận thấp hơn EMA do SMA có độ trễ lớn hơn.
-* **BreakOut (+98.76% - Điểm Hiệu suất: 3.77)**: Đón đầu được các sóng tăng bứt phá vượt đỉnh nhưng điểm hiệu suất thấp hơn do gặp phải các đợt bứt phá giả (False Breakout) trong các giai đoạn thị trường đi ngang.
+### 3.1. Nhóm bám theo xu hướng (EMA_Trend, Trend Following, MA_Crossover, BreakOut)
+Nhìn chung, các chiến lược ăn theo sóng dài đều cho kết quả dương khá tốt, cụ thể:
+* **EMA_Trend (+137.09%)**: Đây là bot ăn đậm nhất. Việc dùng đường EMA 50 giúp bot nhạy với giá hơn, nhận diện sóng tăng sớm hơn một chút và khi thị trường quay đầu thì nó cũng cắt lệnh kịp thời hơn, giữ được lợi nhuận.
+* **Trend Following (+116.06% - Điểm Hiệu suất: 5.33)**: Con bot này chạy "lành" và ổn định nhất. Nhờ có thêm bộ lọc đường SMA 100 làm nền, bot chỉ mua khi thị trường rõ xu hướng tăng (Uptrend), bỏ qua được rất nhiều cú lừa (nhiễu) ngắn hạn.
+* **MA_Crossover (+110.22%)**: Chạy khá ổn định và bám trend tốt, nhưng vì dùng đường SMA thuần nên có độ trễ lớn hơn EMA, dẫn đến biên lợi nhuận bị thu hẹp một chút.
+* **BreakOut (+98.76% - Điểm Hiệu suất: 3.77)**: Bot này bắt được những cây nến tăng bứt phá vượt đỉnh rất tốt. Tuy nhiên điểm hiệu suất thấp hơn vì dính phải nhiều cú phá vỡ giả (False Breakout) khi thị trường đi ngang (Sideways).
 
-### 3.2. Chiến lược Đảo chiều (RSI)
-* **RSI (-109.44% - Điểm Hiệu suất: 0.00)**: Đây là chiến lược duy nhất bị thua lỗ nặng. RSI hoạt động theo nguyên lý mua khi quá bán (<30) và bán khi quá mua (>70). Khi gặp một cổ phiếu đang trong xu hướng giảm mạnh dài hạn (Downtrend), chỉ báo liên tục báo quá bán và kích hoạt lệnh mua bắt đáy ("bắt dao rơi"). Do giá không có nhịp hồi đáng kể, bot buộc phải gồng lỗ trong thời gian dài, dẫn đến cháy tài khoản giả lập.
+### 3.2. Nhóm đảo chiều (RSI)
+* **RSI (-109.44% - Điểm Hiệu suất: 0.00)**: Đây là bài học lớn nhất của tôi trong đợt test này. Đúng như lý thuyết, bot cứ thấy RSI < 30 (quá bán) là nhảy vào bắt đáy. Nhưng ngặt nỗi khi cổ phiếu dính downtrend dài hạn, nó cứ giảm hoài mà không có nhịp hồi đáng kể. Bot rơi vào trạng thái "bắt dao rơi" và gồng lỗ liên tục, dẫn đến việc cháy tài khoản giả lập.
 
 ---
 
-## 4. Điểm mạnh và Điểm yếu tổng thể của hệ thống
+## 4. Tự đánh giá ưu và nhược điểm của hệ thống
 
 ### Điểm mạnh:
-* Các chiến lược bám xu hướng (Trend Following) như EMA Trend hay SMA Crossover chứng tỏ mức độ tương thích rất cao với thị trường chứng khoán Việt Nam, nơi có các sóng tăng/giảm kéo dài rõ rệt (ví dụ sóng uptrend 2020-2021).
-* Điểm số ổn định đạt tối đa `6.0` trên cả 4 bot xu hướng cho thấy tính hệ thống cao.
+* Các chiến lược đánh theo xu hướng (Trend Following) tỏ ra rất hợp vị với thị trường Việt Nam – nơi thường có những con sóng tăng/giảm rõ ràng và kéo dài (như giai đoạn 2020 - 2021).
+* Việc 4 bot xu hướng đều giữ được mức điểm ổn định `6.0` cho thấy logic vận hành không bị lỗi hay loạn nhịp khi chạy dữ liệu lịch sử.
 
-### Điểm yếu và rủi ro:
-* Rủi ro lớn nhất của các chiến lược xu hướng là khi thị trường chung bước vào giai đoạn đi ngang tích lũy (Sideways). Lúc này, các tín hiệu mua/bán sẽ liên tục đảo chiều khiến tài khoản bị bào mòn nhanh chóng.
-* Chiến lược RSI hoàn toàn bất lực trong downtrend nếu không được tích hợp bộ lọc xu hướng lớn đi kèm.
+### Điểm yếu cần nhìn nhận:
+* Gặp thị trường Sideways (đi ngang tích lũy) là các bot xu hướng dễ "ăn đòn". Tín hiệu mua bán liên tục đảo chiều trong biên độ hẹp sẽ bào mòn tài khoản bằng phí và các khoản lỗ nhỏ.
+* Bot RSI quá đơn độc, nếu không có bộ lọc xu hướng lớn để ngăn việc bắt đáy trong downtrend thì rủi ro cực kỳ cao.
 
 ---
 
-## 5. Hướng cải tiến đề xuất
-Nếu có thêm thời gian phát triển chiến lược, tôi đề xuất các hướng tối ưu sau:
-1. **Kết hợp Động lượng và Xu hướng:** Chỉ cho phép chiến lược RSI hoạt động mua khi xu hướng dài hạn (EMA 200) xác nhận đang là Uptrend.
-2. **Quản trị rủi ro chủ động:** Thay vì đợi các đường MA cắt nhau hoặc RSI chạm 70 mới bán, cần thiết lập điểm Cắt lỗ (Stop Loss) và Chốt lời (Take Profit) động dựa trên độ biến động thực tế ATR (Average True Range).
-3. **Quản lý vốn:** Tối ưu hóa khối lượng vào lệnh (Position Sizing) thay vì mua một khối lượng cố định, ví dụ nâng quy mô lệnh khi xu hướng mạnh và giảm quy mô lệnh khi thị trường biến động hẹp.
+## 5. Hướng cải tiến nếu phát triển tiếp
+
+Nếu có thêm thời gian để tối ưu code, tôi sẽ tập trung vào 3 việc:
+1. **Ráp thêm bộ lọc cho RSI:** Chỉ cho phép bot RSI bắt đáy khi và chỉ khi xu hướng lớn (ví dụ EMA 200) xác nhận thị trường vẫn đang nằm trong Uptrend dài hạn.
+2. **Cài Stop Loss/Take Profit động:** Thay vì ngồi chờ các đường MA cắt nhau hay RSI chạm ngưỡng mới chịu ra hàng, tôi sẽ dùng chỉ báo ATR để đặt điểm cắt lỗ và chốt lời tự động theo độ biến động thực tế của từng mã.
+3. **Đi vốn linh hoạt (Position Sizing):** Thay vì lệnh nào cũng vào một khối lượng cố định, tôi sẽ viết thêm hàm để tăng quy mô lệnh khi trend mạnh và thu hẹp volume lại khi thị trường biến động yếu.
