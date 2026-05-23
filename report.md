@@ -1,6 +1,7 @@
 # BÁO CÁO TỰ ĐÁNH GIÁ HIỆU SUẤT HỆ THỐNG ĐA CHIẾN LƯỢC (MULTI-STRATEGY EVALUATION)
 
-* Học viên: [Họ và Tên của bạn]
+* Học viên: Nguyễn Trí Cao
+* Email: kaitokao1412@gmail.com
 * Dự án: QuantVN Entry Test
 * Repository: https://github.com/KaitoKidKao/quantvn-vn-markets
 
@@ -10,6 +11,8 @@
 Để hoàn thành bài test đầu vào và có được cái nhìn đa chiều nhất về thị trường chứng khoán Việt Nam, tôi đã không chỉ triển khai một chiến lược đơn lẻ mà chủ động thiết kế, lập trình và chạy thử nghiệm **5 chiến lược giao dịch định lượng khác nhau** (gồm cả trường phái Theo xu hướng - Trend Following và Đảo chiều xu hướng - Mean Reversion) nhằm so sánh, đối chiếu hiệu quả thực tế trên nền tảng QuantVN.
 
 Dữ liệu backtest được chạy từ ngày **13-08-2018 đến 30-12-2022** trên sàn QuantVN.
+
+![Compare Methods](image.png)
 
 ---
 
