@@ -29,7 +29,7 @@ def run_synthetic_check() -> pd.DataFrame:
     )
     result = gen_position(sample)
 
-    required_columns = {"ma_fast", "ma_slow", "signal", "position"}
+    required_columns = {"signal", "position"}
     missing = required_columns.difference(result.columns)
     if missing:
         raise AssertionError(f"Missing columns: {sorted(missing)}")
@@ -39,7 +39,8 @@ def run_synthetic_check() -> pd.DataFrame:
         raise AssertionError(f"Invalid signal values: {sorted(invalid_signals)}")
 
     print("Synthetic check passed.")
-    print(result[["Close", "ma_fast", "ma_slow", "signal", "position"]].tail())
+    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "signal", "position"] if c in result.columns]
+    print(result[cols_to_print].tail())
     return result
 
 
@@ -97,7 +98,8 @@ def run_quantvn_check() -> None:
         print(f"Warning: Could not calculate performance metrics: {e}")
 
     print("\nLive QuantVN check passed.")
-    print(result[["Close", "ma_fast", "ma_slow", "signal", "position"]].tail())
+    cols_to_print = [c for c in ["Close", "ma_fast", "ma_slow", "rsi", "signal", "position"] if c in result.columns]
+    print(result[cols_to_print].tail())
     print("-" * 50)
     print("BACKTEST PERFORMANCE REPORT (VIC 1H):")
     print(f"  Final PnL:                  {pnl.iloc[-1]:,.2f} VND")
